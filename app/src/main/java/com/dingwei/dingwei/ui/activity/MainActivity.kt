@@ -3,8 +3,12 @@ package com.dingwei.dingwei.ui.activity
 import android.Manifest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.dingwei.dingwei.R
+import com.dingwei.dingwei.service.TraceServiceImpl
+import com.xdandroid.hellodaemon.DaemonEnv
+import com.xdandroid.hellodaemon.IntentWrapper
 import pub.devrel.easypermissions.EasyPermissions
 
 
@@ -49,5 +53,22 @@ class MainActivity : AppCompatActivity() {
 
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+
+    fun onClick(v: View) {
+        when (v.id) {
+            R.id.btn_start -> {
+                TraceServiceImpl.sShouldStopService = false
+                DaemonEnv.startServiceMayBind(TraceServiceImpl::class.java!!)
+            }
+            R.id.btn_white -> IntentWrapper.whiteListMatters(this, "轨迹跟踪服务的持续运行")
+            R.id.btn_stop -> TraceServiceImpl.stopService()
+        }
+    }
+
+    //防止华为机型未加入白名单时按返回键回到桌面再锁屏后几秒钟进程被杀
+    override fun onBackPressed() {
+        IntentWrapper.onBackPressed(this)
     }
 }
