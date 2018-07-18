@@ -4,6 +4,7 @@ import DisplayManager
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.util.Log
@@ -11,11 +12,13 @@ import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
+import com.dingwei.dingwei.service.TraceServiceImpl
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.xdandroid.hellodaemon.DaemonEnv
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -58,9 +61,15 @@ class MyApplication : Application(){
         DisplayManager.init(this)
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
         initLoction(this)
+        DaemonEnv.initialize(
+                this,  //Application Context.
+                TraceServiceImpl::class.java, //刚才创建的 Service 对应的 Class 对象.
+                null) //定时唤醒的时间间隔(ms), 默认 6 分钟.
 
-
+        startService( Intent(this,TraceServiceImpl::class.java))
     }
+
+
 
     private fun setupLeakCanary(): RefWatcher {
         return if (LeakCanary.isInAnalyzerProcess(this)) {

@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:2.6.6.1'
     compile 'com.amap.api:location:latest.integration'
     implementation 'pub.devrel:easypermissions:1.2.0'
+    compile 'com.xdandroid:hellodaemon:+'
 }
 repositories {
     mavenCentral()
