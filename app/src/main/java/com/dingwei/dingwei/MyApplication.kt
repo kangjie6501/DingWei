@@ -52,7 +52,6 @@ class MyApplication : Application(){
         }
 
     }
-
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
@@ -127,7 +126,7 @@ class MyApplication : Application(){
         }
     }
 
-    private fun initLoction(baseApp: MyApplication) {
+    fun initLoction(baseApp: MyApplication) {
 
         //初始化定位
         mLocationClient = AMapLocationClient(applicationContext)
