@@ -2,6 +2,7 @@ package com.dingwei.dingwei.service
 
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.xdandroid.hellodaemon.AbsWorkService
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -27,8 +28,7 @@ class TraceServiceImpl : AbsWorkService() {
                     AbsWorkService.cancelJobAlarmSub()
                 }
                 .subscribe { count ->
-                    println("每 3 秒采集一次数据... count = " + count!!)
-                    if (count > 0 && count % 18 == 0L) println("保存数据到磁盘。 saveCount = " + (count / 18 - 1))
+                    Log.i("kj","正在运行")
                 }
     }
 
@@ -45,7 +45,7 @@ class TraceServiceImpl : AbsWorkService() {
         return sDisposable != null && !sDisposable!!.isDisposed
     }
 
-    override fun onBind(intent: Intent, v: Void): IBinder? {
+    override fun onBind(intent: Intent, v: Void?): IBinder? {
         return null
     }
 

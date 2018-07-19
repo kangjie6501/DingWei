@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         when (v.id) {
             R.id.btn_start -> {
                 TraceServiceImpl.sShouldStopService = false
-                DaemonEnv.startServiceMayBind(TraceServiceImpl::class.java!!)
+                DaemonEnv.startServiceMayBind(TraceServiceImpl::class.java)
             }
             R.id.btn_white -> IntentWrapper.whiteListMatters(this, "轨迹跟踪服务的持续运行")
             R.id.btn_stop -> TraceServiceImpl.stopService()
