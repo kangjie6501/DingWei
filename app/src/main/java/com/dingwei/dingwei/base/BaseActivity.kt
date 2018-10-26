@@ -1,4 +1,4 @@
-
+package com.dingwei.dingwei.base
 
 import android.content.Context
 import android.os.Bundle

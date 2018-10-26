@@ -1,4 +1,4 @@
-
+package com.dingwei.dingwei.base
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

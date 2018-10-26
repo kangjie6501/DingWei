@@ -1,4 +1,4 @@
-
+package com.dingwei.dingwei.base
 
 import android.annotation.SuppressLint
 import android.support.v4.app.Fragment

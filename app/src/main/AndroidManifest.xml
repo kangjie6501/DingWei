@@ -25,7 +25,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar"
+        >
         <!-- 定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
         <service android:name=".service.TraceServiceImpl"/>
@@ -34,6 +35,10 @@
             android:value="097805a57db728c82999b8c928cd2b14" />
 
         <activity android:name=".ui.activity.MainActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
