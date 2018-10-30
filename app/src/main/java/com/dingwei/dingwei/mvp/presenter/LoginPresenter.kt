@@ -11,4 +11,25 @@ class LoginPresenter : BasePresenter<LoginContract.View>(),LoginContract.Present
     private val loginModel by lazy {
         LoginModel()
     }
+
+    /**
+     * 登录
+     */
+    override fun login(phone: String ,passWord: String){
+        val disposable= loginModel.login(phone,passWord)
+                .subscribe({
+                    loginBean ->
+                    mRootView?.apply {
+                  //      nextPageUrl = issue.nextPageUrl
+                        setLoginView(loginBean)
+                    }
+                },{
+                    throwable ->
+                    mRootView?.apply {
+                        showError(throwable.toString())
+                    }
+                })
+
+        addSubscription(disposable)
+    }
 }
