@@ -12,7 +12,7 @@ class LoginModel {
     /**
      * 登录
      */
-    fun login(phone: String,passWord: String): Observable<LoginBean> {
-        return RetrofitManager.service.login(phone,passWord).compose(SchedulerUtils.ioToMain())
+    fun login(phone: String,password: String): Observable<LoginBean> {
+        return RetrofitManager.service.login(phone,password).compose(SchedulerUtils.ioToMain())
     }
 }

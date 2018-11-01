@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,7 +33,7 @@ dependencies {
     compile project(path: ':multiple-status-view')
 
     // Support库
-    implementation rootProject.ext.supportLibs
+//    implementation rootProject.ext.supportLibs
     // 网络请求库
     implementation rootProject.ext.networkLibs
     // RxJava2

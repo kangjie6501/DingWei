@@ -15,8 +15,8 @@ class LoginPresenter : BasePresenter<LoginContract.View>(),LoginContract.Present
     /**
      * 登录
      */
-    override fun login(phone: String ,passWord: String){
-        val disposable= loginModel.login(phone,passWord)
+    override fun login(phone: String ,password: String){
+        val disposable= loginModel.login(phone,password)
                 .subscribe({
                     loginBean ->
                     mRootView?.apply {

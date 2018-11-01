@@ -1,5 +1,6 @@
 package com.dingwei.dingwei.ui.activity
 
+import android.widget.Toast
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LoginContract
@@ -39,11 +40,11 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     override fun showError(errorMsg: String) {
-
+        Toast.makeText(this,"error",Toast.LENGTH_SHORT).show()
     }
 
     override fun setLoginView(loginBean: LoginBean) {
-
+        Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
     }
 
 

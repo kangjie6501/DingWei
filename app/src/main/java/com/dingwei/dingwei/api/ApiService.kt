@@ -9,6 +9,6 @@ import retrofit2.http.Query
  * Created by kangjie on 2018/10/26.
  */
 interface ApiService {
-    @GET("v1/login")
-    fun login(@Query("phone") phone: String,@Query("passWord") passWord: String): Observable<LoginBean>
+    @GET("login/")
+    fun login(@Query("phone") phone: String,@Query("password") password: String): Observable<LoginBean>
 }
