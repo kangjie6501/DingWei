@@ -8,15 +8,18 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/login_name_et"
+            android:hint="phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/login_password_et"
+            android:hint="password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/login_btn"
+            android:text="登录"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
