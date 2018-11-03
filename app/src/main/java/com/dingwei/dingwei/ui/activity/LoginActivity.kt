@@ -1,5 +1,6 @@
 package com.dingwei.dingwei.ui.activity
 
+import android.content.Intent
 import android.widget.Toast
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
@@ -23,6 +24,11 @@ class LoginActivity : BaseActivity(),LoginContract.View {
             var password = login_password_et.text.toString().trim()
             mPresenter.login(phone,password)
         }
+
+        goto_register_btn.setOnClickListener {
+            startActivity(Intent(this,RegisterActivity::class.java))
+            finish()
+        }
     }
 
     override fun start() {
@@ -44,7 +50,17 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     override fun setLoginView(loginBean: LoginBean) {
-        Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+     //   Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this,MainActivity::class.java))
+    }
+
+    init {
+        mPresenter.attachView(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
     }
 
 
