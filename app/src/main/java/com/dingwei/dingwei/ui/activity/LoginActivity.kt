@@ -52,6 +52,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     override fun setLoginView(loginBean: LoginBean) {
      //   Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
         startActivity(Intent(this,MainActivity::class.java))
+
     }
 
     init {
