@@ -16,4 +16,10 @@ interface ApiService {
     @FormUrlEncoded
     @POST("register/")
     fun register(@Field("phone") phone: String,@Field("password") password: String): Observable<BaseResponce<RegisterBean>>
+
+    @FormUrlEncoded
+    @POST("addLocation/")
+    fun addLocation(@Field("userId") userId: String,@Field("location") location: String): Observable<BaseResponce<String>>
+
+
 }

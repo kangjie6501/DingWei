@@ -7,6 +7,7 @@ import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LoginContract
 import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.presenter.LoginPresenter
+import com.dingwei.dingwei.utils.Preference
 import kotlinx.android.synthetic.main.activity_login_layout.*
 
 
@@ -15,6 +16,11 @@ import kotlinx.android.synthetic.main.activity_login_layout.*
  */
 class LoginActivity : BaseActivity(),LoginContract.View {
 
+    private var phone :String by Preference("phone","")
+    private var name : String by Preference("name","")
+    private var password :String by Preference("password","")
+    private var id :String by Preference("id","")
+    private var token :String by Preference("token","")
 
     private val mPresenter by lazy { LoginPresenter() }
     override fun layoutId(): Int = R.layout.activity_login_layout
@@ -51,8 +57,17 @@ class LoginActivity : BaseActivity(),LoginContract.View {
 
     override fun setLoginView(loginBean: LoginBean) {
      //   Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+        saveUserData(loginBean)
         startActivity(Intent(this,MainActivity::class.java))
 
+    }
+
+    private fun saveUserData(loginBean: LoginBean) {
+        id = loginBean.id
+        phone = loginBean.phone
+        name = loginBean.name
+        password = loginBean.password
+        token = loginBean.token
     }
 
     init {
