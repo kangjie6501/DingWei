@@ -12,13 +12,18 @@ import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
+import com.dingwei.dingwei.mvp.model.LocationModel
+import com.dingwei.dingwei.mvp.model.bean.LocationBean
 import com.dingwei.dingwei.service.TraceServiceImpl
+import com.dingwei.dingwei.utils.Preference
+import com.google.gson.Gson
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import com.xdandroid.hellodaemon.DaemonEnv
+import io.reactivex.disposables.CompositeDisposable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -188,6 +193,10 @@ class MyApplication : Application(){
                     val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     val date = Date(amapLocation.time)
                     df.format(date)
+
+                    //记录坐标
+                    saveLocation(amapLocation)
+
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
@@ -196,6 +205,57 @@ class MyApplication : Application(){
 
                 }
             }
+        }
+    }
+    private var compositeDisposable = CompositeDisposable()
+    private val locationModel  by lazy {
+        LocationModel()
+    }
+    private val gson by lazy {
+        Gson()
+    }
+    var locationList : MutableList<LocationBean>? = null
+    //此提交时间
+    var lastLocationTime :Long =0
+    //上次提交 经度坐标
+    var lastLocationLongitude :Long =0
+    //上次提交 纬度坐标
+    var lastLocationLatitude :Long =0
+    //提交间隔时间
+    var pushTime :Long =1000*60
+    var userId:String by Preference("userId","")
+    private fun saveLocation(amapLocation: AMapLocation) {
+//        lastLocation //上次提交的//
+//        lastLocationTime//上次提交时间 //5min
+//        与上次提交 距离差距布较//-
+//                与上一次提交的时间比较
+        if (locationList==null){
+            locationList = ArrayList<LocationBean>()
+        }
+        amapLocation.latitude//获取纬度
+        amapLocation.longitude//获取经度
+        var location = LocationBean(amapLocation.time.toString(),amapLocation.longitude.toString(),  amapLocation.latitude.toString())
+        locationList!!.add(location)
+
+
+        if (amapLocation.time - lastLocationTime > pushTime){
+            //达到提交时间
+
+            //提交
+            val disposable = locationModel.addLocation(userId,gson.toJson(locationList))
+                    .subscribe({
+                        aa ->
+                        //提交成功
+                    },{
+                        throwable ->
+                        //提交失败
+                    })
+            compositeDisposable.add(disposable)
+            //重新设置提交时间
+            lastLocationTime = amapLocation.time
+            //清空
+            locationList!!.clear()
+
         }
     }
 
