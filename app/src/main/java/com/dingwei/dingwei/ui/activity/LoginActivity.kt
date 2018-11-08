@@ -20,7 +20,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     private var phone :String by Preference("phone","")
     private var name : String by Preference("name","")
     private var password :String by Preference("password","")
-    private var id :String by Preference("id","")
+    private var userId :String by Preference("userId","")
     private var token :String by Preference("token","")
 
     private val mPresenter by lazy { LoginPresenter() }
@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     private fun saveUserData(loginBean: BaseResponce<LoginBean>) {
-        id = loginBean.data.id
+        userId = loginBean.data.userId
         phone = loginBean.data.phone
         name = loginBean.data.name
         password = loginBean.data.password

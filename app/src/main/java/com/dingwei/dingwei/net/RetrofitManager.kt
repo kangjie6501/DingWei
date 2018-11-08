@@ -8,10 +8,13 @@ import com.dingwei.dingwei.api.UriConstant
 import com.dingwei.dingwei.utils.Preference
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.Buffer
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.io.IOException
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 /**
@@ -42,6 +45,7 @@ object RetrofitManager{
                     .addQueryParameter("phoneModel", "")*/
                     .build()
             request = originalRequest.newBuilder().url(modifiedUrl).build()
+            handle(chain)
             chain.proceed(request)
         }
     }
@@ -56,9 +60,45 @@ object RetrofitManager{
                     // Provide your custom header here
                     .header("token", token)
                     .method(originalRequest.method(), originalRequest.body())
+
+
             val request = requestBuilder.build()
+            handle(chain)
             chain.proceed(request)
         }
+    }
+
+    private fun handle(chain: Interceptor.Chain) {
+        val request = chain.request()
+        val requestBody = request.body()
+
+        var body = ""
+        if (requestBody == null) {
+            return
+        }
+        if (!requestBody.contentType()!!.toString().contains("multipart")) {
+            if (requestBody != null) {
+                val buffer = Buffer()
+
+                try {
+                    requestBody.writeTo(buffer)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+                var charset: Charset? = Charset.forName("UTF-8")
+                val contentType = requestBody.contentType()
+
+                if (contentType != null && !contentType.subtype().contains("multipart")) {
+                    charset = contentType.charset(charset)
+                    body = buffer.readString(charset!!)
+                }
+            }
+
+        }
+      //  Logger.d("url" + request.method() + request.url() + request.headers() + body)
+
+
     }
 
     /**
