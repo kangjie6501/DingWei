@@ -2,10 +2,15 @@ package com.dingwei.dingwei.service
 
 import android.content.Intent
 import android.os.IBinder
+import com.dingwei.dingwei.mvp.model.LocationModel
 import com.xdandroid.hellodaemon.AbsWorkService
 import io.reactivex.disposables.Disposable
 
 class TraceServiceImpl : AbsWorkService() {
+
+    private val mLocationModel by lazy {
+        LocationModel()
+    }
 
     /**
      * 是否 任务完成, 不再需要服务运行?

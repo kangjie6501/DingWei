@@ -7,6 +7,7 @@ import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LoginContract
 import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.presenter.LoginPresenter
+import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.utils.Preference
 import kotlinx.android.synthetic.main.activity_login_layout.*
 
@@ -55,19 +56,19 @@ class LoginActivity : BaseActivity(),LoginContract.View {
         Toast.makeText(this,"error",Toast.LENGTH_SHORT).show()
     }
 
-    override fun setLoginView(loginBean: LoginBean) {
+    override fun setLoginView(loginBean: BaseResponce<LoginBean>) {
      //   Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
         saveUserData(loginBean)
         startActivity(Intent(this,MainActivity::class.java))
 
     }
 
-    private fun saveUserData(loginBean: LoginBean) {
-        id = loginBean.id
-        phone = loginBean.phone
-        name = loginBean.name
-        password = loginBean.password
-        token = loginBean.token
+    private fun saveUserData(loginBean: BaseResponce<LoginBean>) {
+        id = loginBean.data.id
+        phone = loginBean.data.phone
+        name = loginBean.data.name
+        password = loginBean.data.password
+        token = loginBean.data.token
     }
 
     init {

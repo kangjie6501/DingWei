@@ -11,7 +11,7 @@ import retrofit2.http.*
  */
 interface ApiService {
     @GET("login/")
-    fun login(@Query("phone") phone: String,@Query("password") password: String): Observable<LoginBean>
+    fun login(@Query("phone") phone: String,@Query("password") password: String): Observable<BaseResponce<LoginBean>>
 
     @FormUrlEncoded
     @POST("register/")
