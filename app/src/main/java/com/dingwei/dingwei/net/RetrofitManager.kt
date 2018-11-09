@@ -45,7 +45,7 @@ object RetrofitManager{
                     .addQueryParameter("phoneModel", "")*/
                     .build()
             request = originalRequest.newBuilder().url(modifiedUrl).build()
-            handle(chain)
+         //   handle(chain)
             chain.proceed(request)
         }
     }
@@ -63,7 +63,7 @@ object RetrofitManager{
 
 
             val request = requestBuilder.build()
-            handle(chain)
+    //        handle(chain)
             chain.proceed(request)
         }
     }
@@ -76,7 +76,7 @@ object RetrofitManager{
         if (requestBody == null) {
             return
         }
-        if (!requestBody.contentType()!!.toString().contains("multipart")) {
+        if (/*!requestBody.contentType()!!.toString().contains("multipart")*/true) {
             if (requestBody != null) {
                 val buffer = Buffer()
 

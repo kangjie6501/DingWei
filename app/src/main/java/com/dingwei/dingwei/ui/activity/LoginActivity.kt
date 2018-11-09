@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     private fun saveUserData(loginBean: BaseResponce<LoginBean>) {
-        userId = loginBean.data.userId
+        userId = loginBean.data.id
         phone = loginBean.data.phone
         name = loginBean.data.name
         password = loginBean.data.password
