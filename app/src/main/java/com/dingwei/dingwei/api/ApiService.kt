@@ -23,5 +23,10 @@ interface ApiService {
  //   @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     fun addLocation(@Field("userId") userId: String,@Field("location") location: String): Observable<BaseResponce<String>>
 
+    @FormUrlEncoded
+    @POST("clearLocationByUserId/")
+            //   @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    fun clearLocationByUserId(@Field("userId") userId: String): Observable<BaseResponce<String>>
+
 
 }

@@ -1,33 +1,86 @@
 package com.dingwei.dingwei.ui.activity
 
 import android.Manifest
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.dingwei.dingwei.R
+import com.dingwei.dingwei.base.BaseActivity
+import com.dingwei.dingwei.mvp.contract.MainContract
+import com.dingwei.dingwei.mvp.presenter.MainPersenter
+import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.service.TraceServiceImpl
+import com.dingwei.dingwei.utils.Preference
 import com.xdandroid.hellodaemon.DaemonEnv
 import com.xdandroid.hellodaemon.IntentWrapper
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register_layout.*
 import pub.devrel.easypermissions.EasyPermissions
 
 
 /**
  * Created by kangjie on 2018/7/18.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(), MainContract.View {
+//    private var token:String by Preference("token", "")
+    private var mUserId:String by Preference<String>("userId","")
+    private val mPresenter by lazy { MainPersenter() }
+    init {
+        mPresenter.attachView(this)
+    }
     companion object {
         private val TAG = "MainActivity"
-        private val LOCATION_AND_CONTACTS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CONTACTS)
+        private val LOCATION_AND_CONTACTS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION/*, Manifest.permission.READ_CONTACTS*/)
 
         private val RC_CAMERA_PERM = 123
         private val RC_LOCATION_CONTACTS_PERM = 124
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
+
+
+    override fun showError(errorMsg: String) {
+        Toast.makeText(this,"error",Toast.LENGTH_SHORT).show()
+    }
+
+
+    override fun layoutId(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initData() {
+        var a:String = mUserId
+        Log.e("userID",a)
+        if (mUserId == null ||mUserId.equals("")){
+            goto_login_btn.callOnClick()
+            return
+        }
         locationAndContactsTask()
+    }
+
+    override fun initView() {
+
+       logout_btn.setOnClickListener{
+           view ->
+           Preference("","").clearPreference()
+           startActivity(Intent(this,LoginActivity::class.java))
+       }
+
+        clear_location_btn.setOnClickListener{
+            view->
+            mPresenter.clearLocationByUser(mUserId)
+        }
+    }
+
+    override fun start() {
+
     }
 
     fun locationAndContactsTask() {
@@ -71,4 +124,9 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         IntentWrapper.onBackPressed(this)
     }
+
+    override fun setClearLocationView(loginBean: BaseResponce<String>) {
+       Toast.makeText(this,"已清除",Toast.LENGTH_SHORT).show()
+    }
+
 }

@@ -153,7 +153,7 @@ class MyApplication : Application(){
         mLocationOption!!.setMockEnable(true)
 
         //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
-        mLocationOption!!.setHttpTimeOut(20000)
+        mLocationOption!!.setHttpTimeOut(60*1000)
         //关闭缓存机制
         mLocationOption!!.setLocationCacheEnable(false)
         //给定位客户端对象设置定位参数
@@ -166,6 +166,12 @@ class MyApplication : Application(){
     internal inner class MyAMapLocationListener : AMapLocationListener {
 
         override fun onLocationChanged(amapLocation: AMapLocation?) {
+            if (userId == null || userId==""){
+                userId = Preference("userId","").toString()
+                if (userId == null || userId==""){
+                    return
+                }
+            }
             if (amapLocation != null) {
                 if (amapLocation.errorCode == 0) {
                     //可在其中解析amapLocation获取相应内容。

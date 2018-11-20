@@ -1,6 +1,7 @@
 package com.dingwei.dingwei.ui.activity
 
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_login_layout.*
  */
 class LoginActivity : BaseActivity(),LoginContract.View {
 
+
     private var phone :String by Preference("phone","")
     private var name : String by Preference("name","")
     private var password :String by Preference("password","")
@@ -27,6 +29,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     override fun layoutId(): Int = R.layout.activity_login_layout
     override fun initView() {
         login_btn.setOnClickListener {
+
             var phone = login_name_et.text.toString().trim()
             var password = login_password_et.text.toString().trim()
             mPresenter.login(phone,password)
@@ -36,12 +39,24 @@ class LoginActivity : BaseActivity(),LoginContract.View {
             startActivity(Intent(this,RegisterActivity::class.java))
             finish()
         }
+
+
     }
 
     override fun start() {
+
     }
 
     override fun initData() {
+      //  var id = Preference<String>("userId","").toString()
+        Log.e("userID",userId)
+        if (userId.equals("")){
+            //未登录
+
+        }else{
+            //已登录
+            startActivity(Intent(this,MainActivity::class.java))
+        }
     }
 
     override fun showLoading() {

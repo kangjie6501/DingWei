@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <Button
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
@@ -26,5 +29,18 @@
         android:layout_height="wrap_content"
         android:text="停止服务"
         android:onClick="onClick"/>
-
 </LinearLayout>
+<Button
+    android:id="@+id/logout_btn"
+    android:layout_alignParentBottom="true"
+    android:text="退出登录"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/clear_location_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="清空位置"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
