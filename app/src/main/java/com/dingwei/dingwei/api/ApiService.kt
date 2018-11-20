@@ -1,5 +1,6 @@
 package com.dingwei.dingwei.api
 
+import com.dingwei.dingwei.mvp.model.bean.LocationBean
 import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.model.bean.RegisterBean
 import com.dingwei.dingwei.net.BaseResponce
@@ -15,18 +16,18 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("register/")
-  //  @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     fun register(@Field("phone") phone: String,@Field("password") password: String): Observable<BaseResponce<RegisterBean>>
 
     @FormUrlEncoded
     @POST("addLocation/")
- //   @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     fun addLocation(@Field("userId") userId: String,@Field("location") location: String): Observable<BaseResponce<String>>
 
     @FormUrlEncoded
     @POST("clearLocationByUserId/")
-            //   @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     fun clearLocationByUserId(@Field("userId") userId: String): Observable<BaseResponce<String>>
 
+    @FormUrlEncoded
+    @POST("getLocationByUserId/")
+    fun getLocationByUserId(@Field("userId") userId: String): Observable<BaseResponce<LocationBean>>
 
 }

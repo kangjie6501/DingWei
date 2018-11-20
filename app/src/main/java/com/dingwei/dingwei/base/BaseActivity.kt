@@ -25,11 +25,14 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(layoutId())
         initData()
         initView()
+        initMapView(savedInstanceState)
         start()
         initListener()
 
 
     }
+
+    open fun initMapView(savedInstanceState: Bundle?){}
 
     private fun initListener() {
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)

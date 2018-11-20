@@ -43,4 +43,11 @@
         android:text="清空位置"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button
+        android:text="我的路线"
+        android:layout_marginLeft="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

@@ -31,9 +31,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile project(path: ':multiple-status-view')
-
     // Support库
-//    implementation rootProject.ext.supportLibs
+    //    implementation rootProject.ext.supportLibs
     // 网络请求库
     implementation rootProject.ext.networkLibs
     // RxJava2
@@ -41,7 +40,6 @@ dependencies {
     implementation rootProject.ext.otherLibs
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
-
     //GlideOkHttp
     implementation(rootProject.ext.glideOkhttp) {
         exclude group: 'glide-parent'
@@ -59,10 +57,8 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     implementation 'pub.devrel:easypermissions:1.2.0'
     compile 'com.xdandroid:hellodaemon:+'
-
     implementation 'me.weyye.hipermission:library:1.0.7'
-
-
+    implementation files('libs/Amap_2DMap_V5.2.0_20170627.jar')
 }
 repositories {
     mavenCentral()
