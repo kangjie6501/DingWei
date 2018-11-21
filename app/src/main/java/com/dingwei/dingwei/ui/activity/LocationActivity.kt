@@ -3,6 +3,9 @@ package com.dingwei.dingwei.ui.activity
 import android.os.Bundle
 import android.widget.Toast
 import com.amap.api.maps2d.AMap
+import com.amap.api.maps2d.CameraUpdateFactory
+import com.amap.api.maps2d.model.LatLng
+import com.amap.api.maps2d.model.MarkerOptions
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LocationContract
@@ -16,7 +19,8 @@ import kotlinx.android.synthetic.main.activity_location_layout.*
  * Created by kangjie on 2018/11/20.
  */
 class LocationActivity :BaseActivity(), LocationContract.View {
-    var userId by Preference("id","")
+    var userId by Preference("userId","")
+    var aMap: AMap? = null
     val locationPresenter by lazy {
         LocationPresenter()
     }
@@ -33,8 +37,11 @@ class LocationActivity :BaseActivity(), LocationContract.View {
 
     }
 
-    override fun showLocation(result: BaseResponce<LocationBean>) {
-
+    override fun showLocation(result: BaseResponce<List<LocationBean>>) {
+         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(result.data.get(0).jing.toDouble(),result.data.get(0).wei.toDouble()), 19f))
+         val markerOptions = MarkerOptions()
+         markerOptions.position(LatLng(result.data.get(0).jing.toDouble(),result.data.get(0).wei.toDouble()))
+         aMap!!.addMarker(markerOptions)
     }
 
     override fun layoutId(): Int {
@@ -49,7 +56,7 @@ class LocationActivity :BaseActivity(), LocationContract.View {
         super.initMapView(savedInstanceState)
         //自己当前位置
         location_map.onCreate(savedInstanceState)
-        var aMap: AMap? = null
+
         if (aMap == null) {
             aMap = location_map.getMap()
         }
@@ -67,5 +74,20 @@ class LocationActivity :BaseActivity(), LocationContract.View {
 
     override fun start() {
         locationPresenter.getLocationByUserId(userId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        location_map.onDestroy()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        location_map.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        location_map.onResume()
     }
 }

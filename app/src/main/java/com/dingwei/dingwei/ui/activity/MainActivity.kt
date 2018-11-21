@@ -77,6 +77,11 @@ class MainActivity : BaseActivity(), MainContract.View {
             view->
             mPresenter.clearLocationByUser(mUserId)
         }
+
+        mine_location_btn.setOnClickListener{
+            view->
+            startActivity(Intent(this,LocationActivity::class.java))
+        }
     }
 
     override fun start() {

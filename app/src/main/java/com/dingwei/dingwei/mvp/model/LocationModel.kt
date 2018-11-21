@@ -15,7 +15,7 @@ class LocationModel {
         return RetrofitManager.service.addLocation(userId,location).compose(SchedulerUtils.ioToMain())
     }
 
-    fun getLocationByUserId(userId:String):Observable<BaseResponce<LocationBean>>{
+    fun getLocationByUserId(userId:String):Observable<BaseResponce<List<LocationBean>>>{
         return RetrofitManager.service.getLocationByUserId(userId).compose(SchedulerUtils.ioToMain())
     }
 }

@@ -10,7 +10,7 @@ import com.dingwei.dingwei.net.BaseResponce
  */
 interface LocationContract {
     interface View:IBaseView{
-        fun showLocation(result:BaseResponce<LocationBean>)
+        fun showLocation(result:BaseResponce<List<LocationBean>>)
         fun showError(errorMsg:Throwable)
     }
 
