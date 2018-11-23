@@ -1,6 +1,6 @@
 package com.dingwei.dingwei.api
 
-import com.dingwei.dingwei.mvp.model.bean.LocationBean
+import com.dingwei.dingwei.mvp.model.bean.LocationPageBean
 import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.model.bean.RegisterBean
 import com.dingwei.dingwei.net.BaseResponce
@@ -28,6 +28,6 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("getLocationByUserId/")
-    fun getLocationByUserId(@Field("userId") userId: String): Observable<BaseResponce<List<LocationBean>>>
+    fun getLocationByUserId(@Field("userId") userId: String): Observable<List<LocationPageBean>>
 
 }

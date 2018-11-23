@@ -1,6 +1,6 @@
 package com.dingwei.dingwei.mvp.model
 
-import com.dingwei.dingwei.mvp.model.bean.LocationBean
+import com.dingwei.dingwei.mvp.model.bean.LocationPageBean
 import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.net.RetrofitManager
 import com.dingwei.dingwei.rx.scheduler.SchedulerUtils
@@ -15,7 +15,7 @@ class LocationModel {
         return RetrofitManager.service.addLocation(userId,location).compose(SchedulerUtils.ioToMain())
     }
 
-    fun getLocationByUserId(userId:String):Observable<BaseResponce<List<LocationBean>>>{
+    fun getLocationByUserId(userId:String):Observable<List<LocationPageBean>>{
         return RetrofitManager.service.getLocationByUserId(userId).compose(SchedulerUtils.ioToMain())
     }
 }

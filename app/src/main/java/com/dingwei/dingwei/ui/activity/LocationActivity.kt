@@ -9,9 +9,8 @@ import com.amap.api.maps2d.model.MarkerOptions
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LocationContract
-import com.dingwei.dingwei.mvp.model.bean.LocationBean
+import com.dingwei.dingwei.mvp.model.bean.LocationPageBean
 import com.dingwei.dingwei.mvp.presenter.LocationPresenter
-import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.utils.Preference
 import kotlinx.android.synthetic.main.activity_location_layout.*
 
@@ -37,10 +36,10 @@ class LocationActivity :BaseActivity(), LocationContract.View {
 
     }
 
-    override fun showLocation(result: BaseResponce<List<LocationBean>>) {
-         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(result.data.get(0).jing.toDouble(),result.data.get(0).wei.toDouble()), 19f))
+    override fun showLocation(result: List<LocationPageBean>) {
+         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(result.get(0).fields.jing.toDouble(),result.get(0).fields.wei.toDouble()), 19f))
          val markerOptions = MarkerOptions()
-         markerOptions.position(LatLng(result.data.get(0).jing.toDouble(),result.data.get(0).wei.toDouble()))
+         markerOptions.position(LatLng(result.get(0).fields.jing.toDouble(),result.get(0).fields.wei.toDouble()))
          aMap!!.addMarker(markerOptions)
     }
 
@@ -50,6 +49,10 @@ class LocationActivity :BaseActivity(), LocationContract.View {
 
     override fun initData() {
 
+    }
+
+    init {
+        locationPresenter.attachView(this)
     }
 
     override fun initMapView(savedInstanceState: Bundle?) {
@@ -79,7 +82,9 @@ class LocationActivity :BaseActivity(), LocationContract.View {
     override fun onDestroy() {
         super.onDestroy()
         location_map.onDestroy()
+        locationPresenter.detachView()
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -90,4 +95,7 @@ class LocationActivity :BaseActivity(), LocationContract.View {
         super.onResume()
         location_map.onResume()
     }
+
+
+
 }
