@@ -228,7 +228,7 @@ class MyApplication : Application(){
     //上次提交 纬度坐标
     var lastLocationLatitude :Long =0
     //提交间隔时间
-    var pushTime :Long =1000*10
+    var pushTime :Long =1000*60*5
     var userId:String by Preference("userId","")
     private fun saveLocation(amapLocation: AMapLocation) {
 //        lastLocation //上次提交的//
