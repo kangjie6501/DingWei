@@ -1,6 +1,7 @@
 package com.dingwei.dingwei.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.amap.api.maps2d.AMap
 import com.amap.api.maps2d.CameraUpdateFactory
@@ -37,9 +38,11 @@ class LocationActivity :BaseActivity(), LocationContract.View {
     }
 
     override fun showLocation(result: List<LocationPageBean>) {
-         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(result.get(0).fields.jing.toDouble(),result.get(0).fields.wei.toDouble()), 19f))
+         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(result.get(0).fields.wei.toDouble(),result.get(0).fields.jing.toDouble()),
+         19f))
          val markerOptions = MarkerOptions()
-         markerOptions.position(LatLng(result.get(0).fields.jing.toDouble(),result.get(0).fields.wei.toDouble()))
+        Log.e("TAG",""+result.get(0).fields.jing.toDouble()+"  "+result.get(0).fields.wei)
+         markerOptions.position(LatLng(result.get(0).fields.wei.toDouble(),result.get(0).fields.jing.toDouble()))
          aMap!!.addMarker(markerOptions)
     }
 
