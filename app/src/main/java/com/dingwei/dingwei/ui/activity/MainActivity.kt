@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.MainContract
+import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.presenter.MainPersenter
 import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.service.TraceServiceImpl
@@ -23,12 +25,16 @@ import pub.devrel.easypermissions.EasyPermissions
  * Created by kangjie on 2018/7/18.
  */
 class MainActivity : BaseActivity(), MainContract.View {
-//    private var token:String by Preference("token", "")
-    private var mUserId:String by Preference<String>("userId","")
+
+
+    //    private var token:String by Preference("token", "")
+    private var mUserId: String by Preference<String>("userId", "")
     private val mPresenter by lazy { MainPersenter() }
+
     init {
         mPresenter.attachView(this)
     }
+
     companion object {
         private val TAG = "MainActivity"
         private val LOCATION_AND_CONTACTS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION/*, Manifest.permission.READ_CONTACTS*/)
@@ -47,7 +53,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 
 
     override fun showError(errorMsg: String) {
-        Toast.makeText(this,"error",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -56,9 +62,9 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun initData() {
-        var a:String = mUserId
-        Log.e("userID",a)
-        if (mUserId == null ||mUserId.equals("")){
+        var a: String = mUserId
+        Log.e("userID", a)
+        if (mUserId == null || mUserId.equals("")) {
             goto_login_btn.callOnClick()
             return
         }
@@ -67,20 +73,30 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun initView() {
 
-       logout_btn.setOnClickListener{
-           view ->
-           Preference("","").clearPreference()
-           startActivity(Intent(this,LoginActivity::class.java))
-       }
+        logout_btn.setOnClickListener { view ->
+            Preference("", "").clearPreference()
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
-        clear_location_btn.setOnClickListener{
-            view->
+        clear_location_btn.setOnClickListener { view ->
             mPresenter.clearLocationByUser(mUserId)
         }
 
-        mine_location_btn.setOnClickListener{
-            view->
-            startActivity(Intent(this,LocationActivity::class.java))
+        mine_location_btn.setOnClickListener { view ->
+            startActivity(Intent(this, LocationActivity::class.java))
+        }
+
+        mine_attention_add.setOnClickListener{
+            view ->
+            if (main_name_et.text!=null&&main_name_et.text.toString()!=null&&main_name_et.text.toString().trim()!=null&&!main_name_et.
+                    text.toString().trim().equals("")){
+                mPresenter.addAttention(mUserId,main_name_et.text.toString().trim())
+            }
+        }
+
+        mine_attention_user.setOnClickListener{
+            v ->
+            mPresenter.getAttentions(mUserId)
         }
     }
 
@@ -131,7 +147,30 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun setClearLocationView(loginBean: BaseResponce<String>) {
-       Toast.makeText(this,"已清除",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "已清除", Toast.LENGTH_SHORT).show()
     }
+
+    override fun showAddAttentionSuccess(loginBean: LoginBean) {
+        addOneAttention(loginBean)
+    }
+
+    private fun addOneAttention(loginBean: LoginBean) {
+        var view = View.inflate(this,R.layout.item_attention_user_layout,null)
+        view.findViewById<TextView>(R.id.item_attention_name).text = loginBean.name
+        view.findViewById<TextView>(R.id.item_attention_phone).text = loginBean.phone
+        main_user_ll.addView(view)
+    }
+
+    override fun showAttentions(loginBeans: List<LoginBean>) {
+        main_user_ll.removeAllViews()
+        for (l:LoginBean in loginBeans){
+            addOneAttention(l)
+        }
+    }
+
+    override fun showCancleAttentionSuccess(s: String) {
+        Toast.makeText(this,"取消成功",Toast.LENGTH_SHORT).show()
+    }
+
 
 }

@@ -224,9 +224,9 @@ class MyApplication : Application(){
     //此提交时间
     var lastLocationTime :Long =0
     //上次提交 经度坐标
-    var lastLocationLongitude :Long =0
+    var lastLocationLongitude :Double =0.0
     //上次提交 纬度坐标
-    var lastLocationLatitude :Long =0
+    var lastLocationLatitude :Double =0.0
     //提交间隔时间
     var pushTime :Long =1000*60*5
     var userId:String by Preference("userId","")
@@ -238,8 +238,17 @@ class MyApplication : Application(){
         if (locationList==null){
             locationList = ArrayList<LocationBean>()
         }
-        amapLocation.latitude//获取纬度
-        amapLocation.longitude//获取经度
+        val lat = amapLocation.latitude//获取纬度
+        val lon = amapLocation.longitude//获取经度
+        Log.e("位置","     "+lat+"   "+lon+"    "+Math.abs((lat - lastLocationLatitude)/1000/100)+"       "+Math.abs ((lon - lastLocationLongitude)
+                /1000/100))
+        if (Math.abs((lat - lastLocationLatitude)/1000/100)>5 ||Math.abs ((lon - lastLocationLongitude)/1000/100)>5 ){
+            //移动距离达到一定数值
+            lastLocationLatitude = lat
+            lastLocationLongitude = lon
+        }else{
+            return
+        }
         var location = LocationBean(amapLocation.time.toString(),amapLocation.longitude.toString(),  amapLocation.latitude.toString())
         locationList!!.add(location)
 

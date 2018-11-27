@@ -12,8 +12,8 @@ class RegisterPersenter: BasePresenter<RegisterContract.View>(),RegisterContract
         RegisterModel()
     }
 
-    override fun register(phone: String, password: String) {
-        val disposable= registerModel.register(phone,password)
+    override fun register(phone: String,name:String ,password: String) {
+        val disposable= registerModel.register(phone,name,password)
                 .subscribe({
                     registerBean ->
                     mRootView?.apply {

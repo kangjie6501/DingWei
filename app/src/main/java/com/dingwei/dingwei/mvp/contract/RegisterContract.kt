@@ -15,6 +15,6 @@ interface RegisterContract {
     }
 
     interface Presenter: IPresenter<View>{
-        fun register(phone: String,password: String)
+        fun register(phone: String,name:String,password: String)
     }
 }

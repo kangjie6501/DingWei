@@ -6,10 +6,17 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
-            android:id="@+id/register_name_et"
+            android:id="@+id/register_phone_et"
             android:inputType="phone"
             android:hint="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/register_name_et"
+            android:hint="name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

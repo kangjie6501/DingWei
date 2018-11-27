@@ -16,7 +16,8 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("register/")
-    fun register(@Field("phone") phone: String,@Field("password") password: String): Observable<BaseResponce<RegisterBean>>
+    fun register(@Field("phone") phone: String, @Field("name")name:String , @Field("password") password: String):
+            Observable<BaseResponce<RegisterBean>>
 
     @FormUrlEncoded
     @POST("addLocation/")
@@ -29,5 +30,17 @@ interface ApiService {
     @FormUrlEncoded
     @POST("getLocationByUserId/")
     fun getLocationByUserId(@Field("userId") userId: String): Observable<List<LocationPageBean>>
+
+    @FormUrlEncoded
+    @POST("addAttention/")
+    fun addAttention(@Field("userId") userId:String,@Field("otherUserId") otherUserId:String): Observable<BaseResponce<LoginBean>>
+
+    @FormUrlEncoded
+    @POST("getAttentions/")
+    fun getAttentions(@Field("userId") userId:String): Observable<BaseResponce<List<LoginBean>>>
+
+    @FormUrlEncoded
+    @POST("cancleAttention/")
+    fun cancleAttention(@Field("userId") userId:String,@Field("otherUserId") otherUserId:String): Observable<BaseResponce<String>>
 
 }

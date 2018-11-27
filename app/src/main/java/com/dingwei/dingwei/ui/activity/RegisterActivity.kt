@@ -31,9 +31,10 @@ class RegisterActivity :BaseActivity(), RegisterContract.View {
     }
     override fun initView() {
         register_btn.setOnClickListener {
-            var phone = register_name_et.text.toString().trim()
+            var phone = register_phone_et.text.toString().trim()
             var password = register_password_et.text.toString().trim()
-            mPresenter.register(phone,password)
+            var name = register_name_et.text.toString().trim()
+            mPresenter.register(phone,name,password)
         }
 
         goto_login_btn.setOnClickListener{
