@@ -3,7 +3,9 @@ package com.dingwei.dingwei.ui.activity
 import android.Manifest
 import android.content.Intent
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.dingwei.dingwei.R
@@ -14,6 +16,7 @@ import com.dingwei.dingwei.mvp.presenter.MainPersenter
 import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.service.TraceServiceImpl
 import com.dingwei.dingwei.utils.Preference
+import com.example.zhouwei.library.CustomPopWindow
 import com.xdandroid.hellodaemon.DaemonEnv
 import com.xdandroid.hellodaemon.IntentWrapper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -153,12 +156,45 @@ class MainActivity : BaseActivity(), MainContract.View {
     override fun showAddAttentionSuccess(loginBean: LoginBean) {
         addOneAttention(loginBean)
     }
-
+    var mCustomPopWindow: CustomPopWindow? = null
     private fun addOneAttention(loginBean: LoginBean) {
         var view = View.inflate(this,R.layout.item_attention_user_layout,null)
         view.findViewById<TextView>(R.id.item_attention_name).text = loginBean.name
         view.findViewById<TextView>(R.id.item_attention_phone).text = loginBean.phone
         main_user_ll.addView(view)
+        view.setOnClickListener{
+            v ->
+            val contentView = LayoutInflater.from(this).inflate(R.layout.pop_menu, null)
+            //处理popWindow 显示内容
+            handleLogic(contentView)
+            //创建并显示popWindow
+            mCustomPopWindow = CustomPopWindow.PopupWindowBuilder(this)
+                    .setView(contentView)
+                    .create()
+                    .showAsDropDown(v, 0, 20)
+        }
+    }
+
+    private fun handleLogic(contentView: View) {
+        val listener = View.OnClickListener { v ->
+            if (mCustomPopWindow != null) {
+                mCustomPopWindow!!.dissmiss()
+            }
+            var showContent = ""
+            when (v.id) {
+                R.id.menu1 -> showContent = "点击 Item菜单1"
+                R.id.menu2 -> showContent = "点击 Item菜单2"
+                R.id.menu3 -> showContent = "点击 Item菜单3"
+                R.id.menu4 -> showContent = "点击 Item菜单4"
+                R.id.menu5 -> showContent = "点击 Item菜单5"
+            }
+            Toast.makeText(this@MainActivity, showContent, Toast.LENGTH_SHORT).show()
+        }
+        contentView.findViewById<LinearLayout>(R.id.menu1).setOnClickListener(listener)
+        contentView.findViewById<LinearLayout>(R.id.menu2).setOnClickListener(listener)
+        contentView.findViewById<LinearLayout>(R.id.menu3).setOnClickListener(listener)
+        contentView.findViewById<LinearLayout>(R.id.menu4).setOnClickListener(listener)
+        contentView.findViewById<LinearLayout>(R.id.menu5).setOnClickListener(listener)
     }
 
     override fun showAttentions(loginBeans: List<LoginBean>) {
