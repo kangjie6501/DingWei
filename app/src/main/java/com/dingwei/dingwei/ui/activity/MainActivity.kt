@@ -2,12 +2,12 @@ package com.dingwei.dingwei.ui.activity
 
 import android.Manifest
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.dingwei.dingwei.MyApplication
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.MainContract
@@ -15,7 +15,6 @@ import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.presenter.MainPersenter
 import com.dingwei.dingwei.net.BaseResponce
 import com.dingwei.dingwei.service.TraceServiceImpl
-import com.dingwei.dingwei.utils.Preference
 import com.example.zhouwei.library.CustomPopWindow
 import com.xdandroid.hellodaemon.DaemonEnv
 import com.xdandroid.hellodaemon.IntentWrapper
@@ -31,7 +30,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 
 
     //    private var token:String by Preference("token", "")
-    private var mUserId: String by Preference<String>("userId", "")
+    private var mUserId: String? = null
     private val mPresenter by lazy { MainPersenter() }
 
     init {
@@ -65,8 +64,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun initData() {
-        var a: String = mUserId
-        Log.e("userID", a)
+        mUserId = MyApplication.getSetting()!!.loadString("userId")
         if (mUserId == null || mUserId.equals("")) {
             goto_login_btn.callOnClick()
             return
@@ -77,12 +75,12 @@ class MainActivity : BaseActivity(), MainContract.View {
     override fun initView() {
 
         logout_btn.setOnClickListener { view ->
-            Preference("", "").clearPreference()
+        //    Preference("", "").clearPreference()
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
         clear_location_btn.setOnClickListener { view ->
-            mPresenter.clearLocationByUser(mUserId)
+            mPresenter.clearLocationByUser(this!!.mUserId!!)
         }
 
         mine_location_btn.setOnClickListener { view ->
@@ -93,13 +91,13 @@ class MainActivity : BaseActivity(), MainContract.View {
             view ->
             if (main_name_et.text!=null&&main_name_et.text.toString()!=null&&main_name_et.text.toString().trim()!=null&&!main_name_et.
                     text.toString().trim().equals("")){
-                mPresenter.addAttention(mUserId,main_name_et.text.toString().trim())
+                mPresenter.addAttention(this!!.mUserId!!,main_name_et.text.toString().trim())
             }
         }
 
         mine_attention_user.setOnClickListener{
             v ->
-            mPresenter.getAttentions(mUserId)
+            mPresenter.getAttentions(this!!.mUserId!!)
         }
     }
 
@@ -145,9 +143,9 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     //防止华为机型未加入白名单时按返回键回到桌面再锁屏后几秒钟进程被杀
-    override fun onBackPressed() {
+  /*  override fun onBackPressed() {
         IntentWrapper.onBackPressed(this)
-    }
+    }*/
 
     override fun setClearLocationView(loginBean: BaseResponce<String>) {
         Toast.makeText(this, "已清除", Toast.LENGTH_SHORT).show()

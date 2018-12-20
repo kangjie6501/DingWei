@@ -15,7 +15,7 @@ import com.amap.api.location.AMapLocationListener
 import com.dingwei.dingwei.mvp.model.LocationModel
 import com.dingwei.dingwei.mvp.model.bean.LocationBean
 import com.dingwei.dingwei.service.TraceServiceImpl
-import com.dingwei.dingwei.utils.Preference
+import com.dingwei.dingwei.utils.Setting
 import com.google.gson.Gson
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -35,6 +35,7 @@ import kotlin.properties.Delegates
  */
 
 class MyApplication : Application(){
+
     //声明AMapLocationClient类对象
     var mLocationClient: AMapLocationClient? = null
     //声明定位回调监听器
@@ -55,10 +56,16 @@ class MyApplication : Application(){
             val myApplication = context!!.applicationContext as MyApplication
             return myApplication.refWatcher
         }
+        var mSetting:Setting? = null
+
+        public open fun getSetting(): Setting? {
+            return this!!.mSetting
+        }
 
     }
     override fun onCreate() {
         super.onCreate()
+        mSetting = Setting(this,"dingwei")
         context = applicationContext
         refWatcher = setupLeakCanary()
         initConfig()
@@ -80,6 +87,7 @@ class MyApplication : Application(){
             RefWatcher.DISABLED
         } else LeakCanary.install(this)
     }
+
 
 
     /**
@@ -167,7 +175,7 @@ class MyApplication : Application(){
 
         override fun onLocationChanged(amapLocation: AMapLocation?) {
             if (userId == null || userId==""){
-                userId = Preference("userId","").toString()
+                userId = mSetting!!.loadString("userId")
                 if (userId == null || userId==""){
                     return
                 }
@@ -229,7 +237,7 @@ class MyApplication : Application(){
     var lastLocationLatitude :Double =0.0
     //提交间隔时间
     var pushTime :Long =1000*60*5
-    var userId:String by Preference("userId","")
+    var userId: String? = null
     private fun saveLocation(amapLocation: AMapLocation) {
 //        lastLocation //上次提交的//
 //        lastLocationTime//上次提交时间 //5min
@@ -257,7 +265,7 @@ class MyApplication : Application(){
             //达到提交时间
 
             //提交
-            val disposable = locationModel.addLocation(userId,gson.toJson(locationList))
+            val disposable = locationModel.addLocation(this!!.userId!!,gson.toJson(locationList))
                     .subscribe({
                         aa ->
                         //提交成功

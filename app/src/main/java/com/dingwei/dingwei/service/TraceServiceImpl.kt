@@ -3,12 +3,10 @@ package com.dingwei.dingwei.service
 import android.content.Intent
 import android.os.IBinder
 import com.dingwei.dingwei.mvp.model.LocationModel
-import com.dingwei.dingwei.utils.Preference
 import com.xdandroid.hellodaemon.AbsWorkService
 import io.reactivex.disposables.Disposable
 
 class TraceServiceImpl : AbsWorkService() {
-    private var isNicety: Boolean by Preference("isNicety",false)
     private val mLocationModel by lazy {
         LocationModel()
     }

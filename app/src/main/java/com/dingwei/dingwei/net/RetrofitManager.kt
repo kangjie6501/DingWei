@@ -5,7 +5,6 @@ import NetworkUtil
 import com.dingwei.dingwei.MyApplication
 import com.dingwei.dingwei.api.ApiService
 import com.dingwei.dingwei.api.UriConstant
-import com.dingwei.dingwei.utils.Preference
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.Buffer
@@ -30,7 +29,6 @@ object RetrofitManager{
 
     val service: ApiService by lazy { getRetrofit()!!.create(ApiService::class.java)}
 
-    private var token:String by Preference("token", "")
 
     /**
      * 设置公共参数
@@ -58,7 +56,7 @@ object RetrofitManager{
             val originalRequest = chain.request()
             val requestBuilder = originalRequest.newBuilder()
                     // Provide your custom header here
-                    .header("token", token)
+                    .header("token", MyApplication.getSetting()!!.loadString("token"))
                     .method(originalRequest.method(), originalRequest.body())
 
 

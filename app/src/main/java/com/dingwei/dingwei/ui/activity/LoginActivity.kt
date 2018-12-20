@@ -1,15 +1,14 @@
 package com.dingwei.dingwei.ui.activity
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
+import com.dingwei.dingwei.MyApplication
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LoginContract
 import com.dingwei.dingwei.mvp.model.bean.LoginBean
 import com.dingwei.dingwei.mvp.presenter.LoginPresenter
 import com.dingwei.dingwei.net.BaseResponce
-import com.dingwei.dingwei.utils.Preference
 import kotlinx.android.synthetic.main.activity_login_layout.*
 
 
@@ -19,11 +18,12 @@ import kotlinx.android.synthetic.main.activity_login_layout.*
 class LoginActivity : BaseActivity(),LoginContract.View {
 
 
-    private var phone :String by Preference("phone","")
-    private var name : String by Preference("name","")
-    private var password :String by Preference("password","")
-    private var userId :String by Preference("userId","")
-    private var token :String by Preference("token","")
+    private var phone :String ? = null
+    private var name : String ? = null
+    private var password :String ? = null
+    private var userId :String ? = null
+    // private var first: Boolean by Preference(this, "first", true)
+    private var token :String ? = null
 
     private val mPresenter by lazy { LoginPresenter() }
     override fun layoutId(): Int = R.layout.activity_login_layout
@@ -48,9 +48,8 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     override fun initData() {
-      //  var id = Preference<String>("userId","").toString()
-        Log.e("userID",userId)
-        if (userId.equals("")){
+        userId = MyApplication.getSetting()!!.loadString("userId")
+        if (userId == null || userId.equals("")){
             //未登录
 
         }else{
@@ -79,11 +78,15 @@ class LoginActivity : BaseActivity(),LoginContract.View {
     }
 
     private fun saveUserData(loginBean: BaseResponce<LoginBean>) {
-        userId = loginBean.data.id
+     //   userId = loginBean.data.id
         phone = loginBean.data.phone
         name = loginBean.data.name
         password = loginBean.data.password
         token = loginBean.data.token
+        MyApplication.getSetting()!!.saveString("userId",loginBean.data.id)
+        MyApplication.getSetting()!!.saveString("name",loginBean.data.name)
+        MyApplication.getSetting()!!.saveString("password",loginBean.data.password)
+        MyApplication.getSetting()!!.saveString("token",loginBean.data.token)
     }
 
     init {

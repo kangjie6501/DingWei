@@ -9,12 +9,12 @@ import com.amap.api.maps2d.CameraUpdateFactory
 import com.amap.api.maps2d.model.LatLng
 import com.amap.api.maps2d.model.MarkerOptions
 import com.amap.api.maps2d.model.PolylineOptions
+import com.dingwei.dingwei.MyApplication
 import com.dingwei.dingwei.R
 import com.dingwei.dingwei.base.BaseActivity
 import com.dingwei.dingwei.mvp.contract.LocationContract
 import com.dingwei.dingwei.mvp.model.bean.LocationPageBean
 import com.dingwei.dingwei.mvp.presenter.LocationPresenter
-import com.dingwei.dingwei.utils.Preference
 import kotlinx.android.synthetic.main.activity_location_layout.*
 
 
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_location_layout.*
  * Created by kangjie on 2018/11/20.
  */
 class LocationActivity :BaseActivity(), LocationContract.View {
-    var userId by Preference("userId","")
+    var userId :String? =null
     var aMap: AMap? = null
     val locationPresenter by lazy {
         LocationPresenter()
@@ -82,7 +82,7 @@ class LocationActivity :BaseActivity(), LocationContract.View {
     }
 
     override fun initData() {
-
+        userId = MyApplication.getSetting()!!.loadString("userId")
     }
 
     init {
@@ -110,7 +110,7 @@ class LocationActivity :BaseActivity(), LocationContract.View {
     }
 
     override fun start() {
-        locationPresenter.getLocationByUserId(userId)
+        locationPresenter.getLocationByUserId(this!!.userId!!)
     }
 
     override fun onDestroy() {
