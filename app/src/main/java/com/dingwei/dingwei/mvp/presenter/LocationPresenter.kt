@@ -11,8 +11,8 @@ class LocationPresenter:BasePresenter<LocationContract.View>(),LocationContract.
     val locationModel by lazy {
         LocationModel()
     }
-    override fun getLocationByUserId(userId: String) {
-        var disposable = locationModel.getLocationByUserId(userId)
+    override fun getLocationByUserId(userId: String,timeDay:String) {
+        var disposable = locationModel.getLocationByUserId(userId,timeDay)
                 .subscribe({
                     locationBean ->
                     mRootView?.apply {

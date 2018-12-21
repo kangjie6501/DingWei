@@ -14,6 +14,6 @@ interface LocationContract {
     }
 
     interface Presenter:IPresenter<View>{
-        fun getLocationByUserId(userId:String)
+        fun getLocationByUserId(userId:String,timeDay:String)
     }
 }

@@ -55,6 +55,7 @@ class LoginActivity : BaseActivity(),LoginContract.View {
         }else{
             //已登录
             startActivity(Intent(this,MainActivity::class.java))
+            finish()
         }
     }
 

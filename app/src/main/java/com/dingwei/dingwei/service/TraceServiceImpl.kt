@@ -2,9 +2,13 @@ package com.dingwei.dingwei.service
 
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
+import com.dingwei.dingwei.MyApplication
 import com.dingwei.dingwei.mvp.model.LocationModel
 import com.xdandroid.hellodaemon.AbsWorkService
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 class TraceServiceImpl : AbsWorkService() {
     private val mLocationModel by lazy {
@@ -20,11 +24,11 @@ class TraceServiceImpl : AbsWorkService() {
     }
 
     override fun startWork(intent: Intent, flags: Int, startId: Int) {
-       /* if ((MyApplication.context as MyApplication).mLocationClient == null){
-            (MyApplication.context as MyApplication).initLoction(MyApplication().conte)
-        }*/
-    //    println("检查磁盘中是否有上次销毁时保存的数据")
-       /* sDisposable = Observable
+        if ((MyApplication.context as MyApplication).mLocationClient == null){
+            (MyApplication.context as MyApplication).initLoction(MyApplication())
+        }
+        println("检查磁盘中是否有上次销毁时保存的数据")
+        sDisposable = Observable
                 .interval(3, TimeUnit.SECONDS)
                 //取消任务时取消定时唤醒
                 .doOnDispose {
@@ -33,7 +37,7 @@ class TraceServiceImpl : AbsWorkService() {
                 }
                 .subscribe { count ->
                     Log.i("kj","正在运行")
-                }*/
+                }
     }
 
     override fun stopWork(intent: Intent, flags: Int, startId: Int) {

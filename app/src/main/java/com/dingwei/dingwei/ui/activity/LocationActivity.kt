@@ -16,7 +16,8 @@ import com.dingwei.dingwei.mvp.contract.LocationContract
 import com.dingwei.dingwei.mvp.model.bean.LocationPageBean
 import com.dingwei.dingwei.mvp.presenter.LocationPresenter
 import kotlinx.android.synthetic.main.activity_location_layout.*
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_location_layout.*
  */
 class LocationActivity :BaseActivity(), LocationContract.View {
     var userId :String? =null
+    var timeDay :String? =null
     var aMap: AMap? = null
     val locationPresenter by lazy {
         LocationPresenter()
@@ -83,6 +85,9 @@ class LocationActivity :BaseActivity(), LocationContract.View {
 
     override fun initData() {
         userId = MyApplication.getSetting()!!.loadString("userId")
+        var date =  Date()
+        var sdf = SimpleDateFormat("yyyyMMdd")
+        timeDay = sdf.format(date)
     }
 
     init {
@@ -110,7 +115,7 @@ class LocationActivity :BaseActivity(), LocationContract.View {
     }
 
     override fun start() {
-        locationPresenter.getLocationByUserId(this!!.userId!!)
+        locationPresenter.getLocationByUserId(this!!.userId!!,this!!.timeDay!!)
     }
 
     override fun onDestroy() {

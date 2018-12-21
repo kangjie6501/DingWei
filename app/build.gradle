@@ -61,6 +61,8 @@ dependencies {
     implementation files('libs/Amap_2DMap_V5.2.0_20170627.jar')
     //弹窗
     compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
+    //
+    api 'io.reactivex.rxjava2:rxjava:2.+'
 }
 repositories {
     mavenCentral()

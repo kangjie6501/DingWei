@@ -29,7 +29,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("getLocationByUserId/")
-    fun getLocationByUserId(@Field("userId") userId: String): Observable<List<LocationPageBean>>
+    fun getLocationByUserId(@Field("userId") userId: String,@Field("timeDay") timeDay: String): Observable<List<LocationPageBean>>
 
     @FormUrlEncoded
     @POST("addAttention/")
